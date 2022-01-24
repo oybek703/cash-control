@@ -13,7 +13,7 @@ import AddIncome from './components/pages/AddIncome'
 
 const useStyles = makeStyles(theme => ({
     main: {
-        minHeight: '84vh',
+        minHeight: '84vh'
     }
 }))
 
