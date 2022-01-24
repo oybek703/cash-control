@@ -9,6 +9,7 @@ import {makeStyles} from '@mui/styles'
 import {Link} from 'react-router-dom'
 import {Toolbar} from '@mui/material'
 import Logo from '../../images/cash-management.jpg'
+import {getFromLocalStorage, saveToLocalStorage} from '../../utils'
 
 const useStyles = makeStyles(theme => ({
     header: {
@@ -24,8 +25,12 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function Header() {
-    const [open, setOpen] = React.useState(false)
     const classes = useStyles()
+    const [open, setOpen] = React.useState(false)
+    function logout() {
+        saveToLocalStorage('user', {})
+        window.location.href = '/login'
+    }
     return (
         <header className={classes.header}>
             <Button component={Link} to='/'>Cash Control</Button>
@@ -57,6 +62,9 @@ export default function Header() {
                                 </ListItem>
                             ))
                         }
+                        <ListItem onClick={logout} component={Button}>
+                            <ListItemText primary='Logout'/>
+                        </ListItem>
                     </List>
                 </SwipeableDrawer>
                 <Button onClick={setOpen.bind(null, !open)}>
