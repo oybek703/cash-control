@@ -50,6 +50,7 @@ const AddIncome = () => {
                                 <MenuItem value='unexpected'>Unexpected</MenuItem>
                                 <MenuItem value='work'>Work</MenuItem>
                                 <MenuItem value='small_business'>Small business</MenuItem>
+                                <MenuItem value='other'>Other</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>
