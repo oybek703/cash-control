@@ -1,6 +1,6 @@
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from accounts.models import Account
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -8,18 +8,18 @@ class UserSerializer(serializers.ModelSerializer):
     fullname = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
-        model = User
+        model = Account
         fields = ['username', 'fullname']
 
     def get_fullname(self, obj):
-        return f'{obj.first_name} {obj.last_name}'
+        return obj.full_name()
 
 
 class UserSerializerWithToken(UserSerializer):
     token = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
-        model = User
+        model = Account
         fields = ['username', 'token', 'fullname']
 
     def get_token(self, obj):

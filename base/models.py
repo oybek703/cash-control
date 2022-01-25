@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from accounts.models import Account
 
 
 class Expense(models.Model):
@@ -15,7 +15,7 @@ class Expense(models.Model):
         ('phone', 'Phone'),
         ('charity', 'Charity'),
     ]
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=3)
     type = models.CharField(max_length=64, choices=expense_type_choices)
     payed_at = models.DateTimeField(auto_now=True)
@@ -32,17 +32,8 @@ class Income(models.Model):
         ('small_business', 'Small business'),
         ('other', 'Other')
     ]
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=3)
     type = models.CharField(max_length=64, choices=income_type_choices)
     created_at = models.DateTimeField(auto_now=True)
 
-
-class Fund(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=10, decimal_places=3)
-    entered_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.user.username

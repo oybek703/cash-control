@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts',
     'base',
     'rest_framework',
     'corsheaders'
@@ -124,6 +125,9 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+# Extend user model
+AUTH_USER_MODEL = 'accounts.Account'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
