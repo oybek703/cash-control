@@ -33,7 +33,6 @@ function App() {
                         <Route element={<About/>} path='/about'/>
                         <Route element={<AddExpense/>} path='/addExpense'/>
                         <Route element={<AddIncome/>} path='/addIncome'/>
-                        <Route element={token ? <Home/> : <Login/>} path='/login'/>
                         <Route element={<NotFound/>} path='*'/>
                     </Routes>
                 </Container>

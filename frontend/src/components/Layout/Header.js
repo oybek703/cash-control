@@ -10,11 +10,13 @@ import {Link} from 'react-router-dom'
 import {Toolbar} from '@mui/material'
 import Logo from '../../images/cash-management.jpg'
 import {getFromLocalStorage, saveToLocalStorage} from '../../utils'
+import Grid from '@mui/material/Grid'
 
 const useStyles = makeStyles(theme => ({
     header: {
         display: 'flex',
         justifyContent: 'space-between',
+        alignItems: 'center',
         minHeight: 60,
         backgroundColor: '#eee',
         padding: '0 20px'
@@ -31,6 +33,7 @@ export default function Header() {
         saveToLocalStorage('user', {})
         window.location.href = '/login'
     }
+    const {fullname} = getFromLocalStorage('user')
     return (
         <header className={classes.header}>
             <Button component={Link} to='/'>Cash Control</Button>
@@ -67,9 +70,12 @@ export default function Header() {
                         </ListItem>
                     </List>
                 </SwipeableDrawer>
-                <Button onClick={setOpen.bind(null, !open)}>
+                <Grid>
+                    {fullname} &nbsp;
+                    <Button onClick={setOpen.bind(null, !open)}>
                     <MenuIcon/>
                 </Button>
+                </Grid>
             </React.Fragment>
         </header>
     )

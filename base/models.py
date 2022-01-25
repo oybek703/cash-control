@@ -14,6 +14,8 @@ class Expense(models.Model):
         ('debt', 'Debt'),
         ('phone', 'Phone'),
         ('charity', 'Charity'),
+        ('service', 'Service fee'),
+        ('other', 'Other')
     ]
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=3)

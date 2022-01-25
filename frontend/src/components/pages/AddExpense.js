@@ -55,6 +55,8 @@ const AddExpense = () => {
                                 <MenuItem value='debt'>Debt</MenuItem>
                                 <MenuItem value='phone'>Phone</MenuItem>
                                 <MenuItem value='charity'>Charity</MenuItem>
+                                <MenuItem value='service'>Service</MenuItem>
+                                <MenuItem value='other'>Other</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>

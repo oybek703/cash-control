@@ -4,6 +4,7 @@ from .models import Expense, Income
 
 class ExpenseAdmin(admin.ModelAdmin):
     list_display = ('user', 'amount', 'payed_at', 'type')
+    list_filter = ['type']
 
 
 admin.site.register(Expense, ExpenseAdmin)
