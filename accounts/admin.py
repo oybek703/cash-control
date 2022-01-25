@@ -4,11 +4,9 @@ from .models import Account
 
 
 class AccountAdmin(UserAdmin):
-    list_display = ('username', 'full_name', 'fund',
-                    'last_login', 'date_joined')
-    list_display_links = ('username',)
-    readonly_fields = ('date_joined', 'last_login')
-    ordering = ('-date_joined',)
+    list_display = ('full_name', 'fund', 'charity', 'parents', 'myself', 'last_login')
+    list_display_links = ('full_name',)
+    readonly_fields = ('last_login',)
 
     # As we using custom user model we need to add these
     filter_horizontal = ()

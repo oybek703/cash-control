@@ -42,7 +42,16 @@ class Account(AbstractBaseUser):
     username = models.CharField(max_length=256, unique=True)
     email = models.EmailField(max_length=64, unique=True)
     phone_number = models.CharField(max_length=32, blank=True, null=True)
-    fund = models.DecimalField(max_digits=15, decimal_places=3, default=0)
+    fund = models.DecimalField(max_digits=15, decimal_places=3, default=0)  # if married 20% else 50% of income
+    # comes here automatically
+    charity = models.DecimalField(max_digits=15, decimal_places=3, default=0)  # 2.5% of income always first take
+    # this percent from every income and then others are calculated from left
+    parents = models.DecimalField(max_digits=15, decimal_places=3, default=0)  # 10% of income
+    is_married = models.BooleanField(default=False)
+    husband_or_wife = models.DecimalField(max_digits=15, decimal_places=3, default=0)  # 20% of income
+    myself = models.DecimalField(max_digits=15, decimal_places=3, default=0)  # 20% of income
+    family = models.DecimalField(max_digits=15, decimal_places=3, default=0)  # total: 50% of income
+    # if married 30% for family and 20% for fund else 50% all for fund
 
     # required fields (mandatory when creating custom user model)
     date_joined = models.DateTimeField(auto_now_add=True)

@@ -4,8 +4,13 @@ from .models import Expense, Income
 
 class ExpenseAdmin(admin.ModelAdmin):
     list_display = ('user', 'amount', 'payed_at', 'type')
-    list_filter = ['type']
+    list_filter = ('type',)
+
+
+class IncomeAdmin(admin.ModelAdmin):
+    list_display = ('user', 'amount', 'received_at', 'type')
+    list_filter = ('type',)
 
 
 admin.site.register(Expense, ExpenseAdmin)
-admin.site.register(Income)
+admin.site.register(Income, IncomeAdmin)
