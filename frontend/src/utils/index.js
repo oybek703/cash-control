@@ -12,3 +12,13 @@ export function catchError(e) {
     const {detail} = data
     return detail || e.message
 }
+
+export function withToken() {
+    const {token} = getFromLocalStorage('user')
+    return {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token || ''}`
+        }
+    }
+}

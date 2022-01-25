@@ -3,7 +3,7 @@ from rest_framework import serializers
 from accounts.models import Account
 
 
-class UserSerializer(serializers.ModelSerializer):
+class AccountSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField(read_only=True)
     fullname = serializers.SerializerMethodField(read_only=True)
 
@@ -15,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
         return obj.full_name()
 
 
-class UserSerializerWithToken(UserSerializer):
+class AccountSerializerWithToken(AccountSerializer):
     token = serializers.SerializerMethodField(read_only=True)
 
     class Meta:

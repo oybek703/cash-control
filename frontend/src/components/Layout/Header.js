@@ -23,6 +23,12 @@ const useStyles = makeStyles(theme => ({
     },
     drawer: {
         minWidth: 160
+    },
+    link: {
+        color: '#333',
+        fontWeight: 'bold',
+        backgroundColor: '#eee',
+        marginBottom: 10
     }
 }))
 
@@ -50,14 +56,16 @@ export default function Header() {
                         </Link>
                     </Toolbar>
                     <List className={classes.drawer}>
+                        <ListItem>
+                            <ListItemText primary={`${fullname}`}/>
+                        </ListItem>
                         {
                             [
                                 {path: '/', label: 'Home'},
-                                {path: '/addExpense', label: 'Add Expense'},
-                                {path: '/addIncome', label: 'Add Income'},
+                                {path: '/add', label: 'Add'},
                                 {path: '/about', label: 'About'},
                             ].map(({path, label}) => (
-                                <ListItem component={Link}
+                                <ListItem className={classes.link} component={Link}
                                           key={path}
                                           onClick={setOpen.bind(null, false)}
                                           to={`${path}`}>
@@ -65,13 +73,12 @@ export default function Header() {
                                 </ListItem>
                             ))
                         }
-                        <ListItem onClick={logout} component={Button}>
+                        <ListItem onClick={logout} className={classes.link}>
                             <ListItemText primary='Logout'/>
                         </ListItem>
                     </List>
                 </SwipeableDrawer>
                 <Grid>
-                    {fullname} &nbsp;
                     <Button onClick={setOpen.bind(null, !open)}>
                     <MenuIcon/>
                 </Button>

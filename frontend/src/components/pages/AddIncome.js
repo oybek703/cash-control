@@ -1,43 +1,79 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Typography} from '@mui/material'
 import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Grid from '@mui/material/Grid'
+import axiosInstance from '../../utils/axiosInstance'
+import Alert from '@mui/material/Alert'
+import {catchError, withToken} from '../../utils'
+import SubmitIcon from '../Layout/SubmitIcon'
+import {useNavigate} from 'react-router-dom'
 
 const AddIncome = () => {
-    const [expense, setIncome] = useState(0)
+    const [income, setIncome] = useState(0)
     const [type, setType] = useState('')
-    function handleSubmit(e) {
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
+    const navigate = useNavigate()
+
+    async function handleSubmit(e) {
         e.preventDefault()
-        if(expense > 0 && type) {
-            console.log(expense, type)
+        if (income > 0 && type) {
+            try {
+                setError('')
+                setLoading(true)
+                await axiosInstance.post(
+                    `/api/add_income`,
+                    {amount: income, type},
+                    withToken()
+                )
+                setLoading(false)
+                navigate('/')
+            } catch (e) {
+                setError(catchError(e))
+                setLoading(false)
+            }
         }
     }
+    useEffect(() => {
+        return function () {
+            if(error) setError('')
+            setIncome(0)
+            setType('')
+        }
+    }, [error])
+
     return (
         <>
+
+            <Typography align='center' variant='h6'>Add Income</Typography>
             <br/>
-            <Typography variant='h6'>Add Income</Typography>
-            <br/>
+            {error && <>
+                <Alert onClose={setError.bind(null, '')} severity="error">
+                    {error}
+                </Alert>
+                <br/>
+            </>}
             <form onSubmit={handleSubmit}>
-                <Grid container  spacing={2}>
-                    <Grid item xs={12} sm={6}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
                         <FormControl fullWidth>
                             <TextField
                                 required
+                                disabled={loading}
                                 type='number'
-                                value={expense}
+                                value={income}
                                 onChange={({target: {value}}) => setIncome(+value)}
                                 id="expense-value"
                                 size='small' label="Income amount"
-                                       variant="outlined"/>
+                                variant="outlined"/>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <FormControl fullWidth size='small' required>
+                    <Grid item xs={12}>
+                        <FormControl fullWidth size='small' required disabled={loading}>
                             <InputLabel variant='outlined' id="demo-simple-select-label">Type</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
@@ -56,7 +92,7 @@ const AddIncome = () => {
                     </Grid>
                 </Grid>
                 <br/>
-                <Button type='submit' variant='outlined'>Submit</Button>
+                <SubmitIcon loading={loading}/>
             </form>
         </>
     )

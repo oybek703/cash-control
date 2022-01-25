@@ -48,7 +48,7 @@ class Account(AbstractBaseUser):
     # this percent from every income and then others are calculated from left
     parents = models.DecimalField(max_digits=15, decimal_places=3, default=0)  # 10% of income
     is_married = models.BooleanField(default=False)
-    husband_or_wife = models.DecimalField(max_digits=15, decimal_places=3, default=0)  # 20% of income
+    spouse = models.DecimalField(max_digits=15, decimal_places=3, default=0)  # 20% of income
     myself = models.DecimalField(max_digits=15, decimal_places=3, default=0)  # 20% of income
     family = models.DecimalField(max_digits=15, decimal_places=3, default=0)  # total: 50% of income
     # if married 30% for family and 20% for fund else 50% all for fund
@@ -69,6 +69,9 @@ class Account(AbstractBaseUser):
 
     def full_name(self):
         return f'{self.first_name} {self.last_name}'
+
+    def total_budget(self):
+        return str(self.fund+self.charity+self.parents+self.spouse+self.myself+self.family)
 
     def __str__(self):
         return self.first_name

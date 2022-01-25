@@ -4,7 +4,8 @@ from .models import Account
 
 
 class AccountAdmin(UserAdmin):
-    list_display = ('full_name', 'fund', 'charity', 'parents', 'myself', 'last_login')
+    list_display = ('full_name', 'fund', 'charity', 'parents', 'myself', 'spouse',
+                    'family', 'total_budget', 'last_login')
     list_display_links = ('full_name',)
     readonly_fields = ('last_login',)
 

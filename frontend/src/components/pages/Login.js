@@ -5,11 +5,10 @@ import TextField from '@mui/material/TextField'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import {makeStyles} from '@mui/styles'
-import Button from '@mui/material/Button'
 import axiosInstance from '../../utils/axiosInstance'
 import {catchError, getFromLocalStorage, saveToLocalStorage} from '../../utils'
-import CircularProgress from '@mui/material/CircularProgress'
 import Alert from '@mui/material/Alert'
+import SubmitIcon from '../Layout/SubmitIcon'
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -52,7 +51,7 @@ const Login = () => {
         return function () {
             if(error) setError('')
         }
-    }, [token])
+    }, [token, error])
     return (
         <Container className={classes.container}>
             <Toolbar/>
@@ -94,13 +93,7 @@ const Login = () => {
                             <br/><br/>
                             <FormHelperText>Please, pay attention that all fields are case sensetive.</FormHelperText>
                             <br/>
-                            <Button
-                                disabled={loading}
-                                endIcon={loading && <CircularProgress className={classes.submit_end_icon} size='20px'/>}
-                                variant='outlined'
-                                type='submit'>
-                                Submit
-                            </Button>
+                            <SubmitIcon loading={loading}/>
                         </CardContent>
                     </Grid>
                 </Grid>

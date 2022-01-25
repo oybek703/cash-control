@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
-from .serializers import UserSerializerWithToken
+from .serializers import AccountSerializerWithToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import Expense, Income
@@ -12,7 +12,7 @@ from accounts.models import Account
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
-        serializer = UserSerializerWithToken(self.user)
+        serializer = AccountSerializerWithToken(self.user)
         for k, v in serializer.data.items():
             data[k] = v
         return data
@@ -23,21 +23,30 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 
 def update_user_budget(income_total, user):
-    charity = float(2.5 * income_total / 100)
+    charity = float(2.5 * float(income_total) / 100)
     left_income = float(income_total) - charity
     parents = float(left_income * 10 / 100)
-    husband_or_wife = float(left_income * 20 / 100)
+    spouse = float(left_income * 20 / 100)
     myself = float(left_income * 20 / 100)
     family = float(left_income * 30 / 100)
     if not user.is_married:
         family = 0
-    fund = left_income - (parents+husband_or_wife+myself+family)
-    user.charity = float(charity) + charity
-    user.parents = float(parents) + parents
-    user.husband_or_wife = float(husband_or_wife) + husband_or_wife
-    user.myself = float(myself) + myself
-    user.family = float(family) + family
-    user.fund = float(fund) + fund
+        spouse = 0
+    fund = left_income - (parents + spouse + myself + family)
+    user.charity = float(charity) + float(user.charity)
+    user.parents = float(parents) + float(user.parents)
+    user.spouse = float(spouse) + float(user.spouse)
+    user.myself = float(myself) + float(user.myself)
+    user.family = float(family) + float(user.family)
+    user.fund = float(fund) + float(user.fund)
+    return user
+
+
+def check_income(amount, user, expense_type):
+    if amount < float(getattr(user, expense_type)):
+        setattr(user, expense_type, float(getattr(user, expense_type)) - amount)
+    else:
+        user.fund = float(user.fund) - amount
     return user
 
 
@@ -57,7 +66,17 @@ def add_expense(request):
             type=request.data['type']
         )
         expense.save()
-        user.fund = float(user.fund) - float(expense.amount)
+        amount = float(expense.amount)
+        if expense.type == 'charity':
+            user = check_income(amount, user, 'charity')
+        elif expense.type == 'parents':
+            user = check_income(amount, user, 'parents')
+        elif expense.type == 'family':
+            user = check_income(amount, user, 'family')
+        elif expense.type == 'unexpected' or expense.type == 'debt' or expense.type == 'other':
+            user = check_income(amount, user, 'fund')
+        else:
+            user = check_income(amount, user, 'myself')
         user.save()
         return Response({'detail': f'Expense {expense.id} added.'})
     except Exception as e:
