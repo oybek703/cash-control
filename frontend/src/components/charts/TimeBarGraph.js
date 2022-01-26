@@ -12,7 +12,7 @@ function renderOptions(amounts, types, times, id) {
         ],
         chart: {
             height: 350,
-            type: 'line',
+            type: 'bar',
             dropShadow: {
                 enabled: true,
                 color: '#000',
@@ -27,12 +27,10 @@ function renderOptions(amounts, types, times, id) {
         },
         colors: [
             'rgb(121,121,121)',
-            theme.palette.success['light']
+            theme.palette.warning['light']
         ],
         dataLabels: {
             enabled: true,
-            offsetX: -5,
-            offsetY: -10
         },
         stroke: {
             curve: 'smooth'
@@ -48,7 +46,7 @@ function renderOptions(amounts, types, times, id) {
             size: 1
         },
         xaxis: {
-            categories: types,
+            categories: times,
             labels: {
                 rotate: -45,
                 rotateAlways: true
@@ -60,7 +58,7 @@ function renderOptions(amounts, types, times, id) {
     chart.render()
 }
 
-const LineGraph = ({id = '', data = {amounts: [], types: [], times: []}, normative = 100}) => {
+const TimeBarGraph = ({id = '', data = {amounts: [], types: [], times: []}, normative = 100}) => {
     useEffect(() => {
         if(data.amounts && data.amounts.length) {
             document.querySelector(`#${id}`).innerHTML=''
@@ -72,4 +70,4 @@ const LineGraph = ({id = '', data = {amounts: [], types: [], times: []}, normati
     )
 }
 
-export default LineGraph
+export default TimeBarGraph

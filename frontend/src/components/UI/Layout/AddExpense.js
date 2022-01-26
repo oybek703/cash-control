@@ -1,19 +1,19 @@
 import React, {useEffect, useState} from 'react'
-import axiosInstance from '../../utils/axiosInstance'
-import {catchError, withToken} from '../../utils'
-import SubmitIcon from '../UI/SubmitIcon'
 import {useNavigate} from 'react-router-dom'
+import axiosInstance from '../../../utils/axiosInstance'
+import {catchError, withToken} from '../../../utils'
+import SubmitIcon from './SubmitIcon'
 import Typography from '@material-ui/core/Typography'
-import Alert from '../UI/Alert'
 import Grid from '@material-ui/core/Grid'
 import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
 import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
+import Alert from './Alert'
 
-const AddIncome = () => {
-    const [income, setIncome] = useState(0)
+const AddExpense = () => {
+    const [expense, setExpense] = useState(0)
     const [type, setType] = useState('')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
@@ -21,13 +21,13 @@ const AddIncome = () => {
 
     async function handleSubmit(e) {
         e.preventDefault()
-        if (income > 0 && type) {
+        if (expense > 0 && type) {
             try {
                 setError('')
                 setLoading(true)
                 await axiosInstance.post(
-                    `/api/add_income`,
-                    {amount: income, type},
+                    `/api/add_expense`,
+                    {amount: expense, type},
                     withToken()
                 )
                 setLoading(false)
@@ -41,29 +41,30 @@ const AddIncome = () => {
     useEffect(() => {
         return function () {
             if(error) setError('')
-            setIncome(0)
+            setExpense(0)
             setType('')
         }
     }, [error])
-
     return (
         <>
-            <Typography align='center' variant='h6'>Add Income</Typography>
+            <Typography align='center' variant='h6'>Add Expense</Typography>
             <br/>
             {error && <Alert message={error}/>}
             <form onSubmit={handleSubmit}>
-                <Grid container spacing={2}>
+                <Grid container  spacing={2}>
                     <Grid item xs={12}>
                         <FormControl fullWidth>
                             <TextField
-                                required
                                 disabled={loading}
+                                required
+                                InputProps={{inputProps: {min: 0} }}
+                                min={0}
                                 type='number'
-                                value={income}
-                                onChange={({target: {value}}) => setIncome(+value)}
+                                value={expense}
+                                onChange={({target: {value}}) => setExpense(+value)}
                                 id="expense-value"
-                                size='small' label="Income amount"
-                                variant="outlined"/>
+                                size='small' label="Expense amount"
+                                       variant="outlined"/>
                         </FormControl>
                     </Grid>
                     <Grid item xs={12}>
@@ -73,14 +74,20 @@ const AddIncome = () => {
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={type}
-                                label="Age"
+                                label="Type"
                                 variant='outlined'
                                 onChange={({target: {value}}) => setType(value)}
                             >
-                                <MenuItem value='salary'>Salary</MenuItem>
                                 <MenuItem value='unexpected'>Unexpected</MenuItem>
-                                <MenuItem value='work'>Work</MenuItem>
-                                <MenuItem value='small_business'>Small business</MenuItem>
+                                <MenuItem value='breakfast'>Breakfast</MenuItem>
+                                <MenuItem value='lunch'>Lunch</MenuItem>
+                                <MenuItem value='supper'>Supper</MenuItem>
+                                <MenuItem value='clothing'>Clothing</MenuItem>
+                                <MenuItem value='parents'>Parents</MenuItem>
+                                <MenuItem value='debt'>Debt</MenuItem>
+                                <MenuItem value='phone'>Phone</MenuItem>
+                                <MenuItem value='charity'>Charity</MenuItem>
+                                <MenuItem value='service'>Service</MenuItem>
                                 <MenuItem value='other'>Other</MenuItem>
                             </Select>
                         </FormControl>
@@ -93,4 +100,4 @@ const AddIncome = () => {
     )
 }
 
-export default AddIncome
+export default AddExpense

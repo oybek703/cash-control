@@ -1,6 +1,6 @@
 import React from 'react'
-import AddIncome from './AddIncome'
-import AddExpense from './AddExpense'
+import AddIncome from '../UI/Layout/AddIncome'
+import AddExpense from '../UI/Layout/AddExpense'
 import Grid from '@material-ui/core/Grid'
 
 const Add = () => {

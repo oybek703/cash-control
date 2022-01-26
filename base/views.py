@@ -1,12 +1,16 @@
+from datetime import datetime
+
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
-from .serializers import AccountSerializerWithToken
+from accounts.serializers import AccountSerializerWithToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import Expense, Income
 from accounts.models import Account
+from .serializers import ExpenseSerializer
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -80,7 +84,7 @@ def add_expense(request):
         user.save()
         return Response({'detail': f'Expense {expense.id} added.'})
     except Exception as e:
-        return Response({'detail': str(e)})
+        return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['POST'])
@@ -97,4 +101,19 @@ def add_income(request):
         updated_user.save()
         return Response({'detail': f'Income {income.id} added.'})
     except Exception as e:
-        return Response({'detail': str(e)})
+        return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_daily_expense(request):
+    try:
+        user = Account.objects.get(pk=request.user.id)
+        expenses = Expense.objects.filter(
+            user=user,
+            payed_at__day=datetime.today().strftime('%d')
+        )
+        serializer = ExpenseSerializer(expenses, many=True)
+        return Response(serializer.data)
+    except Exception as e:
+        return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
