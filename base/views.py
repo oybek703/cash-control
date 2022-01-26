@@ -105,29 +105,27 @@ def add_income(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_daily_expense(request):
+def get_expense(request):
+    report_type = request.GET.get('report_type', 'today')
     try:
         user = Account.objects.get(pk=request.user.id)
         expenses = Expense.objects.filter(
             user=user,
             payed_at__day=datetime.today().strftime('%d')
         )
+        if report_type == 'weekly':
+            expenses = Expense.objects.filter(
+                user=user,
+                payed_at__gte=(datetime.now() - timedelta(days=7)).date()
+            )
+        if report_type == 'monthly':
+            expenses = Expense.objects.filter(
+                user=user,
+                payed_at__gte=(datetime.now() - timedelta(days=30)).date()
+            )
         serializer = ExpenseSerializer(expenses, many=True)
         return Response(serializer.data)
     except Exception as e:
         return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_weekly_expense(request):
-    try:
-        user = Account.objects.get(pk=request.user.id)
-        expenses = Expense.objects.filter(
-            user=user,
-            payed_at__gte=(datetime.now()-timedelta(days=7)).date()
-        )
-        serializer = ExpenseSerializer(expenses, many=True)
-        return Response(serializer.data)
-    except Exception as e:
-        return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -13,18 +13,28 @@ const Home = () => {
     const [error, setError] = useState('')
     const [daily, setDaily] = useState({amounts: [], types: [], times: []})
     const [weekly, setWeekly] = useState({amounts: [], types: [], times: []})
-    const weeklyData = {values: [10, 41, 35, 51, 49, 62, 69, 91, 148]}
-    const monthlyData = {values: [10, 41, 35, 51, 49, 62, 69, 91, 148]}
+    const [monthly, setMonthly] = useState({amounts: [], types: [], times: []})
     useEffect(() => {
         async function fetchData() {
             try {
                 setError('')
                 setLoading(true)
-                const {data: dailyData} = await axiosInstance(`/api/get_daily_expense`, withToken())
-                const {data: weeklyData} = await axiosInstance(`/api/get_weekly_expense`, withToken())
+                const {data: dailyData} = await axiosInstance(
+                    `/api/get_expense?report_type=today`,
+                    withToken()
+                )
+                const {data: weeklyData} = await axiosInstance(
+                    `/api/get_expense?report_type=weekly`,
+                    withToken()
+                )
+                const {data: monthlyData} = await axiosInstance(
+                    `/api/get_expense?report_type=monthly`,
+                    withToken()
+                )
                 setLoading(false)
                 setDaily(getDataArrays(dailyData, 'payed_at', true))
                 setWeekly(getDataArrays(weeklyData))
+                setMonthly(getDataArrays(monthlyData))
             } catch (e) {
                 setError(catchError(e))
                 setLoading(false)
@@ -57,11 +67,21 @@ const Home = () => {
                                 <LineGraph id='weekly' data={weekly} normative={25000}/>
                             </Grid>
                             <Grid item sm={12} xs={12}>
-                                <TimeBarGraph id='weekly_bar_graph' data={weekly} normative={25000}/>
+                                <TimeBarGraph id='weekly_bar_graph' data={weekly}/>
                             </Grid>
                         </Grid>
                     }
-                    ThirdTab={<LineGraph id='monthly' data={monthlyData} normative={150000}/>}/>
+                    /*Monthly Report*/
+                    ThirdTab={
+                        <Grid container>
+                            <Grid item xs={12} sm={12}>
+                                <LineGraph id='monthly' data={monthly} normative={25000}/>
+                            </Grid>
+                            <Grid item sm={12} xs={12}>
+                                <TimeBarGraph id='monthly_bar_graph' data={monthly}/>
+                            </Grid>
+                        </Grid>
+                    }/>
             </>
 
     )

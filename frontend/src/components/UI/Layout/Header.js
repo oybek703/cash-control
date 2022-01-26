@@ -62,6 +62,7 @@ export default function Header() {
                         {
                             [
                                 {path: '/', label: 'Home'},
+                                {path: '/budget', label: 'Budget'},
                                 {path: '/add', label: 'Add'},
                                 {path: '/about', label: 'About'},
                             ].map(({path, label}) => (

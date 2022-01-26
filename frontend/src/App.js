@@ -11,6 +11,7 @@ import Add from './components/pages/Add'
 import theme from './components/UI/theme'
 import Container from '@material-ui/core/Container'
 import {ThemeProvider} from '@material-ui/styles'
+import Budget from './components/pages/Budget'
 
 function App() {
     const {token} = getFromLocalStorage('user')
@@ -24,6 +25,7 @@ function App() {
                         <Route element={<Home/>} path='/' exact/>
                         <Route element={<About/>} path='/about'/>
                         <Route element={<Add/>} path='/add'/>
+                        <Route element={<Budget/>} path='/budget'/>
                         <Route element={<NotFound/>} path='*'/>
                     </Routes>
                 </Container>

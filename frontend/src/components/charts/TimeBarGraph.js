@@ -59,7 +59,7 @@ const TimeBarGraph = ({id = '', data = {amounts: [], types: [], times: []}}) => 
             document.querySelector(`#${id}`).innerHTML=''
             renderOptions(data.amounts, data.types, data.times, id)
         }
-    }, [data.amounts, data.types, id])
+    }, [data.amounts, data.types, data.times, id])
     return (
         <div id={`${id}`} className="apex-charts"/>
     )

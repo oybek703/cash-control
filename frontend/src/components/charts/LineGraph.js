@@ -70,7 +70,7 @@ const LineGraph = ({id = '', data = {amounts: [], types: [], times: []}, normati
             document.querySelector(`#${id}`).innerHTML=''
             renderOptions(data.amounts, data.types, data.times, id, normative)
         }
-    }, [data.amounts, data.types, id, normative])
+    }, [data.amounts, data.types, data.times, id, normative])
     return (
         <div id={`${id}`} className="apex-charts"/>
     )

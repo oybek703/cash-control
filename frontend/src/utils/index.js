@@ -33,8 +33,9 @@ export function getTypes(array) {
 }
 
 export function getTimes(array, key='payed_at', is_daily) {
-    return array.
-    map(v => moment().format( is_daily ? 'hh:mm:ss' : "DD MM YYYY hh:mm:ss"))
+    return array.map(v =>
+        moment().format( is_daily ? 'hh:mm:ss' : "DD MM YYYY hh:mm:ss")
+    )
 }
 
 export function getDataArrays(data = [], time_key, is_daily = false) {
