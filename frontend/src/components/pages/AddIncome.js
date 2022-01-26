@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react'
-import {Typography} from '@mui/material'
-import TextField from '@mui/material/TextField'
-import FormControl from '@mui/material/FormControl'
-import InputLabel from '@mui/material/InputLabel'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
-import Grid from '@mui/material/Grid'
 import axiosInstance from '../../utils/axiosInstance'
-import Alert from '@mui/material/Alert'
 import {catchError, withToken} from '../../utils'
-import SubmitIcon from '../Layout/SubmitIcon'
+import SubmitIcon from '../UI/SubmitIcon'
 import {useNavigate} from 'react-router-dom'
+import Typography from '@material-ui/core/Typography'
+import Alert from '../UI/Alert'
+import Grid from '@material-ui/core/Grid'
+import FormControl from '@material-ui/core/FormControl'
+import TextField from '@material-ui/core/TextField'
+import InputLabel from '@material-ui/core/InputLabel'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
 
 const AddIncome = () => {
     const [income, setIncome] = useState(0)
@@ -48,15 +48,9 @@ const AddIncome = () => {
 
     return (
         <>
-
             <Typography align='center' variant='h6'>Add Income</Typography>
             <br/>
-            {error && <>
-                <Alert onClose={setError.bind(null, '')} severity="error">
-                    {error}
-                </Alert>
-                <br/>
-            </>}
+            {error && <Alert message={error}/>}
             <form onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
@@ -80,6 +74,7 @@ const AddIncome = () => {
                                 id="demo-simple-select"
                                 value={type}
                                 label="Age"
+                                variant='outlined'
                                 onChange={({target: {value}}) => setType(value)}
                             >
                                 <MenuItem value='salary'>Salary</MenuItem>

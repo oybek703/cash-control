@@ -1,7 +1,7 @@
 import React from 'react'
-import Grid from '@mui/material/Grid'
 import AddIncome from './AddIncome'
 import AddExpense from './AddExpense'
+import Grid from '@material-ui/core/Grid'
 
 const Add = () => {
     return (

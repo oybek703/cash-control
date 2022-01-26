@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react'
-import {Typography} from '@mui/material'
-import TextField from '@mui/material/TextField'
-import FormControl from '@mui/material/FormControl'
-import InputLabel from '@mui/material/InputLabel'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
-import Grid from '@mui/material/Grid'
 import {useNavigate} from 'react-router-dom'
 import axiosInstance from '../../utils/axiosInstance'
 import {catchError, withToken} from '../../utils'
-import Alert from '@mui/material/Alert'
-import SubmitIcon from '../Layout/SubmitIcon'
+import SubmitIcon from '../UI/SubmitIcon'
+import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
+import FormControl from '@material-ui/core/FormControl'
+import TextField from '@material-ui/core/TextField'
+import InputLabel from '@material-ui/core/InputLabel'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
+import Alert from '../UI/Alert'
 
 const AddExpense = () => {
     const [expense, setExpense] = useState(0)
@@ -49,12 +49,7 @@ const AddExpense = () => {
         <>
             <Typography align='center' variant='h6'>Add Expense</Typography>
             <br/>
-            {error && <>
-                <Alert onClose={setError.bind(null, '')} severity="error">
-                    {error}
-                </Alert>
-                <br/>
-            </>}
+            {error && <Alert message={error}/>}
             <form onSubmit={handleSubmit}>
                 <Grid container  spacing={2}>
                     <Grid item xs={12}>
@@ -77,7 +72,8 @@ const AddExpense = () => {
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={type}
-                                label="Age"
+                                label="Type"
+                                variant='outlined'
                                 onChange={({target: {value}}) => setType(value)}
                             >
                                 <MenuItem value='unexpected'>Unexpected</MenuItem>

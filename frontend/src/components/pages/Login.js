@@ -1,14 +1,18 @@
 import React, {useEffect, useState} from 'react'
-import {CardContent, Container, FormHelperText, Toolbar, Typography} from '@mui/material'
-import FormControl from '@mui/material/FormControl'
-import TextField from '@mui/material/TextField'
-import Grid from '@mui/material/Grid'
-import Card from '@mui/material/Card'
-import {makeStyles} from '@mui/styles'
 import axiosInstance from '../../utils/axiosInstance'
 import {catchError, getFromLocalStorage, saveToLocalStorage} from '../../utils'
-import Alert from '@mui/material/Alert'
-import SubmitIcon from '../Layout/SubmitIcon'
+import SubmitIcon from '../UI/SubmitIcon'
+import Container from '@material-ui/core/Container'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
+import CardContent from '@material-ui/core/CardContent'
+import Alert from '../UI/Alert'
+import FormControl from '@material-ui/core/FormControl'
+import TextField from '@material-ui/core/TextField'
+import Card from '@material-ui/core/Card'
+import FormHelperText from '@material-ui/core/FormHelperText'
+import {makeStyles} from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -62,12 +66,7 @@ const Login = () => {
                 <Grid container justifyContent='center'>
                     <Grid item component={Card} className={classes.body}>
                         <CardContent>
-                            {error && <>
-                                <Alert onClose={setError.bind(null, '')} severity="error">
-                                    {error}
-                                </Alert>
-                            <br/>
-                            </>}
+                            {error && <Alert message={error}/>}
                             <FormControl fullWidth>
                                 <TextField
                                     required
