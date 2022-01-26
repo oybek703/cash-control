@@ -1,5 +1,4 @@
-from datetime import datetime
-
+from datetime import datetime, timedelta
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -77,7 +76,7 @@ def add_expense(request):
             user = check_income(amount, user, 'parents')
         elif expense.type == 'family':
             user = check_income(amount, user, 'family')
-        elif expense.type == 'unexpected' or expense.type == 'debt' or expense.type == 'other':
+        elif expense.type == 'debt' or expense.type == 'other':
             user = check_income(amount, user, 'fund')
         else:
             user = check_income(amount, user, 'myself')
@@ -112,6 +111,21 @@ def get_daily_expense(request):
         expenses = Expense.objects.filter(
             user=user,
             payed_at__day=datetime.today().strftime('%d')
+        )
+        serializer = ExpenseSerializer(expenses, many=True)
+        return Response(serializer.data)
+    except Exception as e:
+        return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_weekly_expense(request):
+    try:
+        user = Account.objects.get(pk=request.user.id)
+        expenses = Expense.objects.filter(
+            user=user,
+            payed_at__gte=(datetime.now()-timedelta(days=7)).date()
         )
         serializer = ExpenseSerializer(expenses, many=True)
         return Response(serializer.data)

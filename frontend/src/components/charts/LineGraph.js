@@ -2,14 +2,18 @@ import React, {useEffect} from 'react'
 import ApexCharts from 'apexcharts'
 import theme from '../UI/theme'
 
-function renderOptions(amounts, types, times, id) {
+function renderOptions(amounts, types, times, id, normative) {
+    const total = amounts.reduce((acc, val) => acc+=(+val), 0)
     const options = {
         series: [
-            {
-                name: "Amount",
-                data: amounts
-            }
-        ],
+            {name: "Amount",data: amounts},
+            normative ? {name: "Normal", data: new Array(types.length).fill(normative)} : undefined
+        ].filter(Boolean),
+        title: {
+            text: `TOTAL: ${total}`,
+            align: 'right',
+            margin: -5
+        },
         chart: {
             height: 350,
             type: 'line',
@@ -60,7 +64,7 @@ function renderOptions(amounts, types, times, id) {
     chart.render()
 }
 
-const LineGraph = ({id = '', data = {amounts: [], types: [], times: []}, normative = 100}) => {
+const LineGraph = ({id = '', data = {amounts: [], types: [], times: []}, normative}) => {
     useEffect(() => {
         if(data.amounts && data.amounts.length) {
             document.querySelector(`#${id}`).innerHTML=''

@@ -4,12 +4,7 @@ import theme from '../UI/theme'
 
 function renderOptions(amounts, types, times, id) {
     const options = {
-        series: [
-            {
-                name: "Amount",
-                data: amounts
-            }
-        ],
+        series: [{name: "Amount", data: amounts}],
         chart: {
             height: 350,
             type: 'bar',
@@ -58,13 +53,13 @@ function renderOptions(amounts, types, times, id) {
     chart.render()
 }
 
-const TimeBarGraph = ({id = '', data = {amounts: [], types: [], times: []}, normative = 100}) => {
+const TimeBarGraph = ({id = '', data = {amounts: [], types: [], times: []}}) => {
     useEffect(() => {
         if(data.amounts && data.amounts.length) {
             document.querySelector(`#${id}`).innerHTML=''
-            renderOptions(data.amounts, data.types, data.times, id, normative)
+            renderOptions(data.amounts, data.types, data.times, id)
         }
-    }, [data.amounts, data.types, id, normative])
+    }, [data.amounts, data.types, id])
     return (
         <div id={`${id}`} className="apex-charts"/>
     )

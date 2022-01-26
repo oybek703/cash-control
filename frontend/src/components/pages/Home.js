@@ -12,6 +12,7 @@ const Home = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [daily, setDaily] = useState({amounts: [], types: [], times: []})
+    const [weekly, setWeekly] = useState({amounts: [], types: [], times: []})
     const weeklyData = {values: [10, 41, 35, 51, 49, 62, 69, 91, 148]}
     const monthlyData = {values: [10, 41, 35, 51, 49, 62, 69, 91, 148]}
     useEffect(() => {
@@ -20,8 +21,10 @@ const Home = () => {
                 setError('')
                 setLoading(true)
                 const {data: dailyData} = await axiosInstance(`/api/get_daily_expense`, withToken())
+                const {data: weeklyData} = await axiosInstance(`/api/get_weekly_expense`, withToken())
                 setLoading(false)
                 setDaily(getDataArrays(dailyData, 'payed_at', true))
+                setWeekly(getDataArrays(weeklyData))
             } catch (e) {
                 setError(catchError(e))
                 setLoading(false)
@@ -38,18 +41,27 @@ const Home = () => {
             : <>
                 <h3>Income and Expense Report</h3>
                 <CustomTabs
-                    FirstTab={
-                        <Grid container>
+                    /*Daily Report*/
+                    FirstTab={<Grid container>
                             <Grid item xs={12} sm={6}>
-                                <LineGraph id='daily' data={daily} normative={30}/>
+                                <LineGraph id='daily' data={daily}/>
                             </Grid>
                             <Grid item sm={6} xs={12}>
-                                <TimeBarGraph id='daily1s' data={daily} normative={30}/>
+                                <TimeBarGraph id='daily_bar_graph' data={daily} normative={30}/>
+                            </Grid>
+                        </Grid>}
+                    /*Weekly Report*/
+                    SecondTab={
+                        <Grid container>
+                            <Grid item xs={12} sm={12}>
+                                <LineGraph id='weekly' data={weekly} normative={25000}/>
+                            </Grid>
+                            <Grid item sm={12} xs={12}>
+                                <TimeBarGraph id='weekly_bar_graph' data={weekly} normative={25000}/>
                             </Grid>
                         </Grid>
                     }
-                    SecondTab={<LineGraph id='weekly' data={weeklyData} normative={150}/>}
-                    ThirdTab={<LineGraph id='monthly' data={monthlyData} normative={1000000}/>}/>
+                    ThirdTab={<LineGraph id='monthly' data={monthlyData} normative={150000}/>}/>
             </>
 
     )
