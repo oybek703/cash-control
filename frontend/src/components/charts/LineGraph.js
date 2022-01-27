@@ -3,17 +3,11 @@ import ApexCharts from 'apexcharts'
 import theme from '../UI/theme'
 
 function renderOptions(amounts, types, times, id, normative) {
-    const total = amounts.reduce((acc, val) => acc+=(+val), 0)
     const options = {
         series: [
             {name: "Amount",data: amounts},
             normative ? {name: "Normal", data: new Array(types.length).fill(normative)} : undefined
         ].filter(Boolean),
-        title: {
-            text: `TOTAL: ${total}`,
-            align: 'right',
-            margin: -5
-        },
         chart: {
             height: 350,
             type: 'line',
@@ -70,7 +64,7 @@ const LineGraph = ({id = '', data = {amounts: [], types: [], times: []}, normati
             document.querySelector(`#${id}`).innerHTML=''
             renderOptions(data.amounts, data.types, data.times, id, normative)
         }
-    }, [data.amounts, data.types, data.times, id, normative])
+    }, [data, id, normative])
     return (
         <div id={`${id}`} className="apex-charts"/>
     )
