@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/static/css/main.a3291879.css",
-    "main.js": "/static/js/main.8c0517ca.js",
+    "main.js": "/static/js/main.85895034.js",
     "static/js/787.2617f76a.chunk.js": "/static/js/787.2617f76a.chunk.js",
     "static/media/cash-management.jpg": "/static/media/cash-management.ccc00c0c6b082e995a9b.jpg",
     "index.html": "/index.html",
     "main.a3291879.css.map": "/static/css/main.a3291879.css.map",
-    "main.8c0517ca.js.map": "/static/js/main.8c0517ca.js.map",
+    "main.85895034.js.map": "/static/js/main.85895034.js.map",
     "787.2617f76a.chunk.js.map": "/static/js/787.2617f76a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a3291879.css",
-    "static/js/main.8c0517ca.js"
+    "static/js/main.85895034.js"
   ]
 }
