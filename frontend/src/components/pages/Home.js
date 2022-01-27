@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid'
 import axiosInstance from '../../utils/axiosInstance'
 import {catchError, getDataArrays, withToken} from '../../utils'
 import TimeBarGraph from '../charts/TimeBarGraph'
+import HorizontalBar from '../charts/HorizontalBar'
 
 const Home = () => {
     const [loading, setLoading] = useState(false)
@@ -58,6 +59,10 @@ const Home = () => {
                             </Grid>
                             <Grid item sm={6} xs={12}>
                                 <TimeBarGraph id='daily_bar_graph' data={daily} normative={30}/>
+                            </Grid>
+                            <Grid item xs={12}>
+                                    <HorizontalBar id='daily_horizontal_bar'
+                                                   series={[400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]}/>
                             </Grid>
                         </Grid>}
                     /*Weekly Report*/
