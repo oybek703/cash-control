@@ -36,7 +36,7 @@ postgresql-perpendicular-62847 --app cc-yoriqulov
 heroku config:set DISABLE_COLLECTSTATIC=1
 15. git push heroku master
 16. Add .env variables
-17. Make migrations for creating database tables on heroku dyno terminal:
+17. Make migrations for creating database tables on heroku dyno terminal if not done 13-step:
 python manage.py makemigrations
 python manage.py migrate
 18. For connecting heroku remote postgres database:
