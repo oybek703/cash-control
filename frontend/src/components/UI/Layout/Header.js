@@ -19,7 +19,6 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         minHeight: 60,
         backgroundColor: '#eee',
-        padding: '0 20px'
     },
     drawer: {
         minWidth: 160
@@ -28,7 +27,8 @@ const useStyles = makeStyles(theme => ({
         color: '#333',
         fontWeight: 'bold',
         backgroundColor: '#eee',
-        marginBottom: 10
+        marginBottom: 10,
+        cursor: 'pointer'
     }
 }))
 

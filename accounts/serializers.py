@@ -4,7 +4,6 @@ from accounts.models import Account
 
 
 class AccountSerializer(serializers.ModelSerializer):
-    name = serializers.SerializerMethodField(read_only=True)
     fullname = serializers.SerializerMethodField(read_only=True)
 
     class Meta:

@@ -7,11 +7,12 @@ import NotFound from './components/pages/NotFound'
 import React from 'react'
 import {getFromLocalStorage} from './utils'
 import Login from './components/pages/Login'
-import Add from './components/pages/Add'
 import theme from './components/UI/theme'
 import Container from '@material-ui/core/Container'
 import {ThemeProvider} from '@material-ui/styles'
 import Budget from './components/pages/Budget'
+import Add from './components/pages/Add'
+import Grid from '@material-ui/core/Grid'
 
 function App() {
     const {token} = getFromLocalStorage('user')
@@ -20,15 +21,17 @@ function App() {
         <ThemeProvider theme={theme}>
             <BrowserRouter>
                 <Header/>
-                <Container component='main'>
-                    <Routes>
+                <Grid component='main'>
+                    <Container>
+                        <Routes>
                         <Route element={<Home/>} path='/' exact/>
                         <Route element={<About/>} path='/about'/>
                         <Route element={<Add/>} path='/add'/>
                         <Route element={<Budget/>} path='/budget'/>
                         <Route element={<NotFound/>} path='*'/>
                     </Routes>
-                </Container>
+                    </Container>
+                </Grid>
             </BrowserRouter>
         </ThemeProvider>
     )

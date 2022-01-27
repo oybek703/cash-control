@@ -92,8 +92,7 @@ const theme = createTheme({
     overrides: {
         MuiTableContainer: {
             root: {
-                maxHeight: '90vh',
-                paddingBottom: 10
+                maxHeight: '90vh'
             }
         },
         MuiTableCell: {

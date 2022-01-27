@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
-from accounts.serializers import AccountSerializerWithToken
+from accounts.serializers import AccountSerializerWithToken, AccountSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import Expense, Income
@@ -123,9 +123,28 @@ def get_expense(request):
                 user=user,
                 payed_at__gte=(datetime.now() - timedelta(days=30)).date()
             )
+        expenses = expenses.order_by('payed_at')
         serializer = ExpenseSerializer(expenses, many=True)
         return Response(serializer.data)
     except Exception as e:
         return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_budget(request):
+    try:
+        user = Account.objects.get(pk=request.user.id)
+        budget = {
+            'Total': user.total_budget(),
+            'Myself': user.myself,
+            'Fund': user.fund,
+            'Charity': user.charity,
+            'Parents': user.parents,
+        }
+        if user.is_married:
+            budget['Family'] = user.family
+            budget['Spouse'] = user.spouse
+        return Response(budget)
+    except Exception as e:
+        return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
