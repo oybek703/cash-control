@@ -31,7 +31,7 @@ heroku pg:info for getting information about database server. (THIS)
 heroku pg:push postgres://name_of_host/name_of_local_database nameOfHerokuDB --app <app-name>
 For example:
 PGUSER=postgres PGPASSWORD=123456 heroku pg:push postgres://localhost/cashcontrol
-postgresql-perpendicular-62847 --app cc-yoriqulov
+postgresql-perpendicular-62847 --app yoriqulov-cc
 14. Disable Collectstatic and push the files to heroku:
 heroku config:set DISABLE_COLLECTSTATIC=1
 15. git push heroku master
