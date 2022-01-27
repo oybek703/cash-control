@@ -25,7 +25,7 @@ const Add = () => {
 
     async function handleSubmit(e) {
         e.preventDefault()
-        if (amount >= 5000 && type) {
+        if (amount >= 5000 && type.length > 0) {
             try {
                 setError('')
                 setLoading(true)

@@ -44,3 +44,14 @@ export function getDataArrays(data = [], time_key, is_daily = false) {
     const times = getTimes(data, time_key, is_daily)
     return {amounts, types, times}
 }
+
+export function getTotalByTypes(data = []) {
+    const types = Array.from(new Set(getTypes(data))).reduce((acc, val) => {
+        acc[val] = 0
+        return acc
+    }, {})
+    return data.reduce((acc, val) => {
+        acc[val['type']]+=(+val['amount'])
+        return acc
+    }, types)
+}
