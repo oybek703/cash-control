@@ -19,13 +19,25 @@ db_from_env = dj_database_url.config(conn_max_age=600)
 DATABASES['default'].update(db_from_env)
 10. Also ensure you file has following variables
 STATIC_URL, STATIC_ROOT, STATICFILES_DIRS, MEDIA_ROOT, MEDIA_URL accordingly:
-11. add to git and commit.
+11. add to git and commit .
+12. create heroku app:
+heroku login if not logged in and then:
+heroku create <app-name>
 12. Adding and configuring Postgres:
-heroku addons:create heroku-postgresql:hobby-dev
-heroku config -s | grep DATABASE_URL
-heroku pg:info for getting information about database server.
-13. Make migrations for creating database tables:
+heroku addons:create heroku-postgresql:hobby-dev --app <app-name>
+heroku config -s | grep DATABASE_URL --app <app-name> (not worked last times) [next line works]
+heroku pg:info for getting information about database server. (THIS)
+13. push local database:PGUSER=postgres PGPASSWORD=password
+heroku pg:push postgres://name_of_host/name_of_local_database nameOfHerokuDB --app <app-name>
+For example:
+PGUSER=postgres PGPASSWORD=123456 heroku pg:push postgres://localhost/cashcontrol
+postgresql-perpendicular-62847 --app cc-yoriqulov
+14. Disable Collectstatic and push the files to heroku:
+heroku config:set DISABLE_COLLECTSTATIC=1
+15. git push heroku master
+16. Add .env variables
+17. Make migrations for creating database tables on heroku dyno terminal:
 python manage.py makemigrations
 python manage.py migrate
-14. For connecting heroku remote postgres database:
+18. For connecting heroku remote postgres database:
 heroku pg:psql
