@@ -1,0 +1,12 @@
+{
+  "name": "cash-control",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build && cp frontend/build/index.html frontend/build/404.html"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "cacheDirectories": [
+    "frontend/node_modules"
+  ]
+}

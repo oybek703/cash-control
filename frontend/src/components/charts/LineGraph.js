@@ -5,8 +5,8 @@ import theme from '../UI/theme'
 function renderOptions(amounts, types, times, id, normative) {
     const options = {
         series: [
-            {name: "Amount",data: amounts},
-            normative ? {name: "Normal", data: new Array(types.length).fill(normative)} : undefined
+            {name: 'Amount', data: amounts},
+            normative ? {name: 'Normal', data: new Array(types.length).fill(normative)} : undefined
         ].filter(Boolean),
         chart: {
             height: 350,
@@ -20,7 +20,16 @@ function renderOptions(amounts, types, times, id, normative) {
                 opacity: 0.2
             },
             toolbar: {
-                show: false
+                show: true,
+                tools: {
+                    selection: true,
+                    zoom: true,
+                    zoomin: true,
+                    zoomout: true,
+                    pan: true,
+                    reset: true,
+                    customIcons: []
+                }
             }
         },
         colors: [
@@ -60,8 +69,8 @@ function renderOptions(amounts, types, times, id, normative) {
 
 const LineGraph = ({id = '', data = {amounts: [], types: [], times: []}, normative}) => {
     useEffect(() => {
-        if(data.amounts && data.amounts.length) {
-            document.querySelector(`#${id}`).innerHTML=''
+        if (data.amounts && data.amounts.length) {
+            document.querySelector(`#${id}`).innerHTML = ''
             renderOptions(data.amounts, data.types, data.times, id, normative)
         }
     }, [data, id, normative])
